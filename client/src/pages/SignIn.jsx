@@ -104,7 +104,7 @@ export default function SignIn() {
             <div>
               <button
                 disabled={loading}
-                className="inline-flex w-full items-center justify-center rounded-md bg-black px-3.5 py-2.5 font-semibold leading-7 text-white hover:bg-black/80"
+                className="inline-flex disabled:opacity-70 w-full items-center justify-center rounded-md bg-black px-3.5 py-2.5 font-semibold leading-7 text-white hover:bg-black/80"
               >
                  {loading?'LOADING...':'SIGN IN'}
               </button>
