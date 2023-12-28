@@ -183,7 +183,7 @@ export default function Profile() {
           onClick={() => fileRef.current.click()}
           src={formData.avatar || currentUser.avatar}
           alt='profile'
-          className='rounded-full h-24 w-24 object-cover cursor-pointer self-center mt-2'
+          className='rounded-full h-36 w-36 object-cover cursor-pointer self-center mt-2'
         />
         {
           error? <p className='text-red-700 text-center p-2 bg-red-100 rounded-lg mt-5'>{error ? error : ''}</p>:""
@@ -233,16 +233,16 @@ export default function Profile() {
         />
         <button
           disabled={loading}
-          className='bg-slate-700 text-white rounded-lg p-3 uppercase hover:opacity-95 disabled:opacity-80'
+          className='bg-black text-white rounded-lg p-3 uppercase hover:bg-black/80 disabled:opacity-70'
         >
           {loading ? 'Loading...' : 'Update'}
         </button>
-        {/* <Link
-          className='bg-green-700 text-white p-3 rounded-lg uppercase text-center hover:opacity-95'
+        <Link
+          className='bg-green-100 border-green-700 border-2 text-green-700  p-3 rounded-lg uppercase text-center hover:bg-green-200'
           to={'/create-listing'}
         >
           Create Listing
-        </Link> */}
+        </Link>
       </form>
       <div className='flex justify-between mt-5'>
         <span
@@ -257,12 +257,7 @@ export default function Profile() {
           Sign out
         </span>
       </div>
-
-      {/* 
-      
-      <button onClick={handleShowListings} className='text-green-700 w-full'>
-        Show Listings
-      </button> */}
+   
       {/* <p className='text-red-700 mt-5'>
         {showListingsError ? 'Error showing listings' : ''}
       </p>
