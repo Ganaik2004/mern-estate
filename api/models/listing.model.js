@@ -54,7 +54,10 @@ const listingSchema = new Schema(
       type: String,
       required: true,
     },
-   
+   reviews:[{
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: "Review"
+   }]
    
   },
   { timestamps: true }

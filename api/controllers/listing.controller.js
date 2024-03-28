@@ -40,7 +40,7 @@ export const updateListing = async(req,res,next)=>{
 }
 export const getLisitng = async(req,res,next)=>{
     try{
-        const listing = await Listing.findById(req.params.id);
+        const listing = await Listing.findById(req.params.id).populate({path:'reviews',populate:{path:"author",select:"username",}});
         if(!listing){
             return next(errorHandler(404,"Listing not found!"))
         }

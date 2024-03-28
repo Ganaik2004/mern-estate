@@ -4,6 +4,7 @@ import dotenv from 'dotenv'
 import userRouter from "./routes/user.route.js"
 import authRouter from './routes/auth.route.js'
 import listingRouter from './routes/listing.routr.js'
+import reviewRoute from './routes/review.route.js'
 import cookieParser from 'cookie-parser'
 import path from "path";
 dotenv.config();
@@ -27,6 +28,7 @@ app.listen(port,()=>{
 app.use("/api/user",userRouter);
 app.use("/api/auth",authRouter);
 app.use("/api/listing",listingRouter);
+app.use("/api/review",reviewRoute);
 app.use(express.static(path.join(__dirname,'/client/dist')));
 app.get('*',(req,res)=>{
     res.sendFile(path.join(__dirname,'client','dist','index.html'));

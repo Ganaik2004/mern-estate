@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore from "swiper";
 import { useSelector } from "react-redux";
 import { Navigation } from "swiper/modules";
 import "swiper/css/bundle";
+import Rating from "@mui/material/Rating";
 import {
   FaBath,
   FaBed,
@@ -14,30 +15,32 @@ import {
   FaParking,
   FaShare,
 } from "react-icons/fa";
-import Contact from '../components/Contact';
+import Contact from "../components/Contact";
+import Reviewitems from "../components/Reviewitems";
 
 // https://sabe.io/blog/javascript-format-numbers-commas#:~:text=The%20best%20way%20to%20format,format%20the%20number%20with%20commas.
 
 export default function Listing() {
   SwiperCore.use([Navigation]);
-  const [listing, setListing] = useState(null);
+  const [listing, setListing] = useState();
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
   const [loadingReview, setLoadingReview] = useState(false);
   const [errorReview, setErrorReview] = useState(false);
-  const [review,setReview] = useState({});
+  // const [review, setReview] = useState({});
   const [error, setError] = useState(false);
   const [copied, setCopied] = useState(false);
   const [contact, setContact] = useState(false);
   const params = useParams();
   const { currentUser } = useSelector((state) => state.user);
-
-  useEffect(() => {
+  const [valueReview, setValueReview] = useState({rating:2,author:currentUser._id,listing:params.id});
+   useEffect(() => {
     const fetchListing = async () => {
       try {
         setLoading(true);
         const res = await fetch(`/api/listing/get/${params.id}`);
         const data = await res.json();
-       
+
         if (data.success === false) {
           setError(true);
           setLoading(false);
@@ -51,40 +54,44 @@ export default function Listing() {
         setLoading(false);
       }
     };
-    fetchListing();
+   
+     fetchListing();
     
-  }, [params.id]);
-  
-//  const handleReview = (e) =>{
-//     setReview({ ...review, [e.target.id]: e.target.value });
-//  }
-//  const handleSubmit = async (e)=>{
-//     e.preventDefault();
-//     try {
-//      setLoadingReview(true);
-//         const res = await fetch(`/api/listing/${listing._id}/reviews`, {
-//           method: "POST",
-//           headers: {
-//             "Content-Type": "application/json",
-//           },
-//           body: JSON.stringify(review),
-//         });
-//         const data = await res.json();
-//         if (data.success === false) {
-//         setLoadingReview(false);
-//         setErrorReview(true);
-//           return;
-//         }
-//         setListing(data);
-//         setErrorReview(false);
-//         setLoadingReview(false);
-//       } catch (error) {
-//         setLoadingReview(false);
-//         setErrorReview(true);
-//       }
-//  }
- console.log(review)
- 
+   }
+  , [params.id]);
+   const handleReview = (e) =>{
+      setValueReview({ ...valueReview, [e.target.id]: e.target.value });
+   }
+  //  console.log(valueReview)
+   const handleSubmit = async (e)=>{
+      e.preventDefault();
+      try {
+       setLoadingReview(true);
+          const res = await fetch(`/api/review/listings/${listing._id}/review`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(valueReview),
+          });
+          const data = await res.json();
+          if (data.success === false) {
+          setLoadingReview(false);
+          setErrorReview(true);
+            return;
+          }
+          setListing(data);
+          setErrorReview(false);
+          setLoadingReview(false);
+          location. reload(); 
+          
+        } catch (error) {
+          setLoadingReview(false);
+          setErrorReview(true);
+        }
+   }
+        // console.log(listing.reviews);
+
   return (
     <main>
       {loading && <p className="text-center my-7 text-2xl">Loading...</p>}
@@ -125,7 +132,7 @@ export default function Listing() {
           )}
           <div className="flex flex-col max-w-5xl mx-auto p-3 my-7 gap-4">
             <p className="text-2xl font-semibold">
-              {listing.name} - ₹ 
+              {listing.name} - ₹
               {listing.offer
                 ? listing.discountPrice.toLocaleString("en-IN")
                 : listing.regularPrice.toLocaleString("en-IN")}
@@ -171,7 +178,32 @@ export default function Listing() {
                 {listing.furnished ? "Furnished" : "Unfurnished"}
               </li>
             </ul>
-            {currentUser && listing.userRef !== currentUser._id && !contact && (
+            {errorReview}
+            <form action="" onSubmit={handleSubmit} className="flex flex-col gap-6">
+              <h1 className="font-semibold">Review</h1>
+            <Rating
+              name="simple-controlled"
+              value={valueReview.rating}
+              onChange={(event, newValue) => {
+                setValueReview({...valueReview,rating:newValue});
+              }}
+            />
+            <textarea
+            type="textarea"
+            placeholder="Comment"
+            className="border p-3 rounded-lg"
+            onChange={handleReview}
+            value={valueReview.comment}
+            id="comment"
+            required
+          ></textarea>
+          <button  disabled={loadingReview} className=" uppercase text-red-800 p-3  bg-red-100 rounded-lg hover:bg-red-300 disabled:opacity-20">Submit Review</button>
+            </form>
+            <div className="flex flex-wrap gap-3 justify-center">
+            {currentUser&&listing&& listing.reviews.map((review)=>(<Reviewitems key={review._id} review={review}/>))}
+           
+            </div>
+           {currentUser && listing.userRef !== currentUser._id && !contact && (
               <button
                 onClick={() => setContact(true)}
                 className="bg-slate-700 text-white rounded-lg uppercase hover:opacity-95 p-3"
@@ -179,8 +211,11 @@ export default function Listing() {
                 Contact landlord
               </button>
             )}
+            {/* <div>
+               
+            </div> */}
+
             {contact && <Contact listing={listing} />}
-           
           </div>
         </div>
       )}
