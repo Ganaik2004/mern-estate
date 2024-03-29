@@ -16,7 +16,7 @@ export default function Reviewitems({review}) {
         <p className='text-[10px]'>@{review.author.username}</p>
          <Rating name="read-only"  size='small' value={review.rating} readOnly />
          <p>{review.comment}</p>
-        {
+        {currentUser&&
           currentUser._id==review.author._id && <div className='flex flex-wrap gap-3 justify-between'>
             <form action="" onSubmit={handleSubmit1}>
             <button className='text-red-700 cursor-pointer p-2 bg-red-100 rounded-lg'>Delete</button>

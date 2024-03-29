@@ -6,10 +6,8 @@ import { errorHandler } from "../utils/error.js";
 export const createReview = async (req,res,next)=>{
     try{
         const listing = await Listing.findById(req.params.id);
-        if(!listing){
-          return next(new errorHandler(404,"Cannot find listing"))
-        }
         const review = await Review.create(req.body);
+        review.author = req.user.id;
         listing.reviews.push(review);
         await review.save();
         await listing.save();

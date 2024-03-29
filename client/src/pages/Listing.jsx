@@ -33,7 +33,7 @@ export default function Listing() {
   const [contact, setContact] = useState(false);
   const params = useParams();
   const { currentUser } = useSelector((state) => state.user);
-  const [valueReview, setValueReview] = useState({rating:2,author:currentUser._id,listing:params.id});
+  const [valueReview, setValueReview] = useState({rating:2,listing:params.id});
    useEffect(() => {
     const fetchListing = async () => {
       try {
@@ -179,8 +179,8 @@ export default function Listing() {
               </li>
             </ul>
             {errorReview}
-            <form action="" onSubmit={handleSubmit} className="flex flex-col gap-6">
-              <h1 className="font-semibold">Review</h1>
+            {currentUser && <form action="" onSubmit={handleSubmit} className="flex flex-col gap-6">
+              <h1 className="font-semibold text-[30px]">Review</h1>
             <Rating
               name="simple-controlled"
               value={valueReview.rating}
@@ -198,9 +198,11 @@ export default function Listing() {
             required
           ></textarea>
           <button  disabled={loadingReview} className=" uppercase text-red-800 p-3  bg-red-100 rounded-lg hover:bg-red-300 disabled:opacity-20">Submit Review</button>
-            </form>
+            </form>}
+            <h1 className="text-[30px] text-center">Listing Reviews</h1>
             <div className="flex flex-wrap gap-3 justify-center">
-            {currentUser&&listing&& listing.reviews.map((review)=>(<Reviewitems key={review._id} review={review}/>))}
+              
+            {listing&& listing.reviews.map((review)=>(<Reviewitems key={review._id} review={review}/>))}
            
             </div>
            {currentUser && listing.userRef !== currentUser._id && !contact && (

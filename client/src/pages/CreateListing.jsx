@@ -29,6 +29,7 @@ export default function CreateListing() {
     offer: false,
     parking: false,
     furnished: false,
+    reviews:[],
   });
   const handleImageSubmit = (e) => {
     if (files.length > 0 && files.length + formData.imageUrls.length < 7) {
@@ -81,7 +82,7 @@ export default function CreateListing() {
       );
     });
   };
-  console.log(formData);
+  
   const handleRemoveImage = (index) => {
     setFormData({
       ...formData,
@@ -135,7 +136,7 @@ export default function CreateListing() {
       const data = await res.json();
       setLoading(false);
       if (data.success === false) {
-        setError(data.message);
+       setError(data.message);
       }
       navigate(`/listing/${data._id}`);
     } catch (error) {
