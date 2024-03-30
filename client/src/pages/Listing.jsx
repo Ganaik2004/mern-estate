@@ -40,7 +40,10 @@ export default function Listing() {
         setLoading(true);
         const res = await fetch(`/api/listing/get/${params.id}`);
         const data = await res.json();
-
+        if(data==='Unauthorised'){
+          navigate('/errorhandle')
+          return;
+        }
         if (data.success === false) {
           setError(true);
           setLoading(false);
@@ -75,6 +78,10 @@ export default function Listing() {
             body: JSON.stringify(valueReview),
           });
           const data = await res.json();
+          if(data==='Unauthorised'){
+            navigate('/errorhandle')
+            return;
+          }
           if (data.success === false) {
           setLoadingReview(false);
           setErrorReview(true);

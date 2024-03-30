@@ -11,6 +11,7 @@ import CreateListing from './pages/CreateListing'
 import UpdateListing from './pages/UpdateListing'
 import Listing from './pages/Listing'
 import Search from './pages/Search'
+import { Handle404Error } from './components/Handle404Error'
 export default function App() {
   return (
     <BrowserRouter>
@@ -21,8 +22,9 @@ export default function App() {
       <Route path='/sign-up' element={<SignUp/>}/>
       <Route path='/about' element={<About/>}/>
       <Route path='/search' element={<Search/>}/>
-      <Route path='/listing/:id' element={<Listing/>}/>
+      <Route path='/listing/:id' element={<Listing/>}/>  
       <Route element ={<PrivateRoute/>}>
+      <Route path='/errorhandle' element = {<Handle404Error/>}/>
       <Route path='/profile' element={<Profile/>}/>
       <Route path='/create-listing' element={<CreateListing/>}/>
       <Route path='/update-listing/:id' element={<UpdateListing/>}/>

@@ -45,6 +45,10 @@ export default function Search() {
       const searchQuery = urlParams.toString();
       const res = await fetch(`/api/listing/get?${searchQuery}`);
       const data = await res.json();
+      if(data==='Unauthorised'){
+        navigate('/errorhandle')
+        return;
+      }
       if (data.length > 8) {
         setShowMore(true);
       } else {
@@ -111,6 +115,10 @@ export default function Search() {
   const searchQuery = urlParams.toString();
   const res = await fetch(`/api/listing/get?${searchQuery}`);
   const data = await res.json();
+  if(data==='Unauthorised'){
+    navigate('/errorhandle')
+    return;
+  }
   if (data.length < 9) {
     setShowMore(false);
   }

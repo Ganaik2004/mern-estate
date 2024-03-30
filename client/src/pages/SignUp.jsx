@@ -24,6 +24,10 @@ export default function SignUp() {
         body:JSON.stringify(formData),
       });
       const data = await res.json();
+      if(data==='Unauthorised'){
+        navigate('/errorhandle')
+        return;
+      }
       if(data.success===false){
         setError(data.message);
         setLoading(false);

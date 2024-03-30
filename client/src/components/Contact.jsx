@@ -12,6 +12,10 @@ export default function Contact({listing}) {
           try {
             const res = await fetch(`/api/user/${listing.userRef}`);
             const data = await res.json();
+            if(data==='Unauthorised'){
+              navigate('/errorhandle')
+              return;
+            }
             setLandlord(data);
           } catch (error) {
             console.log(error);

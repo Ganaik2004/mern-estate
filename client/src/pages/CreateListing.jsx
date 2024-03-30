@@ -135,6 +135,10 @@ export default function CreateListing() {
       });
       const data = await res.json();
       setLoading(false);
+      if(data==='Unauthorised'){
+        navigate('/errorhandle')
+        return;
+      }
       if (data.success === false) {
        setError(data.message);
       }

@@ -20,6 +20,10 @@ export default function OAuth() {
     body:JSON.stringify({name:result.user.displayName,email:result.user.email,photo:result.user.photoURL})
    })
    const data = await res.json();
+   if(data==='Unauthorised'){
+    navigate('/errorhandle')
+    return;
+  }
    dispatch(signInSuccess(data));
    navigate('/');
         }catch(error){

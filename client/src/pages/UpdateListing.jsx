@@ -88,6 +88,10 @@ useEffect(()=>{
         const listingid = params.id;
         const res  = await fetch(`/api/listing/get/${listingid}`)
         const data = await res.json();
+        if(data==='Unauthorised'){
+          navigate('/errorhandle')
+          return;
+        }
         if(data.success===false){
             console.log(data.message);
             return;
@@ -148,10 +152,14 @@ useEffect(()=>{
       });
       const data = await res.json();
       setLoading(false);
+      if(data==='Unauthorised'){
+        navigate('/errorhandle')
+        return;
+      }
       if (data.success === false) {
         setError(data.message);
       }
-      navigate(`/lisitng/${data._id}`);
+     navigate(`/listing/${data._id}`);
     } catch (error) {
       setError(error.message);
       setLoading(false);

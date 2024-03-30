@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
 import SwiperCore from 'swiper';
@@ -12,6 +12,7 @@ export default function Home() {
   const [offerListings, setOfferListings] = useState([]);
   const [saleListings, setSaleListings] = useState([]);
   const [rentListings, setRentListings] = useState([]);
+  const navigate = useNavigate();
   SwiperCore.use([Navigation]);
   // console.log(offerListings);
   useEffect(() => {
@@ -19,6 +20,10 @@ export default function Home() {
       try {
         const res = await fetch('/api/listing/get?offer=true&limit=4');
         const data = await res.json();
+        if(data==='Unauthorised'){
+          navigate('/errorhandle')
+          return;
+        }
         setOfferListings(data);
         fetchRentListings();
       } catch (error) {
@@ -29,6 +34,10 @@ export default function Home() {
       try {
         const res = await fetch('/api/listing/get?type=rent&limit=4');
         const data = await res.json();
+        if(data==='Unauthorised'){
+          navigate('/errorhandle')
+          return;
+        }
         setRentListings(data);
         fetchSaleListings();
       } catch (error) {
@@ -40,6 +49,10 @@ export default function Home() {
       try {
         const res = await fetch('/api/listing/get?type=sale&limit=4');
         const data = await res.json();
+        if(data==='Unauthorised'){
+          navigate('/errorhandle')
+          return;
+        }
         setSaleListings(data);
       } catch (error) {
         console.log(error);
