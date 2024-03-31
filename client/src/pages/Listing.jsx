@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore from "swiper";
@@ -34,7 +34,7 @@ export default function Listing() {
   const params = useParams();
   const { currentUser } = useSelector((state) => state.user);
   const [valueReview, setValueReview] = useState({rating:2,listing:params.id});
-   useEffect(() => {
+   useMemo(() => {
     const fetchListing = async () => {
       try {
         setLoading(true);

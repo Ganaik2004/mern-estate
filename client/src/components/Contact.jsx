@@ -1,7 +1,8 @@
 import React, { useState,useEffect } from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function Contact({listing}) {
+  const navigate = useNavigate();
     const [landlord, setLandlord] = useState(null);
     const [message, setMessage] = useState('');
     const onChange = (e) => {

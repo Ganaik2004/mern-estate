@@ -1,17 +1,28 @@
 import React from 'react'
 import Rating from '@mui/material/Rating';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 export default function Reviewitems({review}) {
+  const navigate = useNavigate();
   const { currentUser } = useSelector((state) => state.user);
-  const handleSubmit1 = async ()=>{
-    //  e.preventDefault();
-    const result = await fetch(`/api/review/listings/${review.listing}/delete/${review._id}`, {
-      method: 'DELETE',
-    });
+  const handleSubmit1 = async (e)=>{
+    try{
+      const res = await fetch(`/api/review/listings/${review.listing}/delete/${review._id}`, {
+        method: 'DELETE',
+      }); 
+      const data = await res.json();
+          if(data==='Unauthorised'){
+            navigate('/errorhandle')
+            location.reload();
+            return;
+          } 
+           
+    }catch(er){
+      console.log(er)
+    }
   }
   return (
-    
+   
     <div className='bg-white border p-3 rounded-lg hover:shadow-lg transition-shadow overflow-hidden rounded-lg w-full sm:w-[330px] flex flex-col gap-3'>
         <p className='text-[10px]'>@{review.author.username}</p>
          <Rating name="read-only"  size='small' value={review.rating} readOnly />
