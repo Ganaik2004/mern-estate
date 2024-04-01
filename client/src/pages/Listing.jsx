@@ -206,7 +206,7 @@ export default function Listing() {
           ></textarea>
           <button  disabled={loadingReview} className=" uppercase text-red-800 p-3  bg-red-100 rounded-lg hover:bg-red-300 disabled:opacity-20">Submit Review</button>
             </form>}
-            <h1 className="text-[30px] text-center">Listing Reviews</h1>
+            <h1 className="text-[30px] text-center">{listing.name} Reviews</h1>
             <div className="flex flex-wrap gap-3 justify-center">
               
             {listing&& listing.reviews.map((review)=>(<Reviewitems key={review._id} review={review}/>))}

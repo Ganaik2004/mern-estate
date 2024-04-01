@@ -10,7 +10,8 @@ import { useNavigate } from 'react-router-dom';
 export function Handle404Error() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const handleSignOut = async () => {
+    const handleSignOut = async (e) => {
+      e.preventDefault();
         try {
           dispatch(signOutUserStart());
           const res = await fetch("/api/auth/signout");
@@ -36,7 +37,7 @@ export function Handle404Error() {
           Sorry, the page you are looking for doesn&apos;t exist or has been moved.
         </p>
         <div className="mt-6 flex items-center space-x-3">
-            <form  onSubmit={handleSignOut}>
+            <form  onSubmit={handleSignOut} id = 'okk'>
             <button
            
             className="inline-flex items-center rounded-md border border-black px-3 py-2 text-sm font-semibold text-black shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"

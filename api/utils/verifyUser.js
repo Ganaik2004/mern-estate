@@ -10,7 +10,7 @@ export const verifyToken =(req, res, next) => {
         return  res.status(404).json("Unauthorised");
       }
     }
-      if (err) return next(errorHandler(403, 'Token Got expire Please Click on sign out'));
+      if (err) return next(errorHandler(403, 'Unauthorised'));
       req.user = user;
        next();
     
